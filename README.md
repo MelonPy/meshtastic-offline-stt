@@ -21,10 +21,10 @@ This project lets a user **dictate a message, transcribe it locally on the devic
 
 ```
  ┌──────────────┐   audio   ┌──────────────────────────┐   text   ┌────────────────┐   LoRa
- │  Microphone  │ ────────► │  Radxa ZERO 3W (RK3566)   │ ───────► │ Meshtastic node│ ~~~~~~► mesh
- │ (USB / I2S)  │           │  VAD → STT → text cleanup │  serial  │ (USB or SPI    │
+ │  Microphone  │ ────────► │  Radxa ZERO 3W (RK3566)  │ ───────► │ Meshtastic node│ ~~~~~~► mesh
+ │ (USB / I2S)  │           │  VAD → STT → text cleanup│  serial  │ (USB or SPI    │
  └──────────────┘           └──────────────────────────┘          │  LoRa module)  │
-                                                                   └────────────────┘
+                                                                  └────────────────┘
 ```
 
 The ZERO 3W handles audio capture, voice activity detection and speech recognition. The text is passed to Meshtastic, either through a Meshtastic node connected over USB serial or through a LoRa module wired to the board.
