@@ -1,0 +1,2606 @@
+{
+ "config_name": "smoke",
+ "config_path": "configs/smoke.yaml",
+ "config": {
+  "datasets": [
+   {
+    "name": "fleurs",
+    "lang": "fr",
+    "manifest": "data/fleurs/fr/manifest.csv"
+   },
+   {
+    "name": "fleurs",
+    "lang": "en",
+    "manifest": "data/fleurs/en/manifest.csv"
+   }
+  ],
+  "limit": 20,
+  "threads": [
+   4
+  ],
+  "cpus": "0-3",
+  "warmup": 1,
+  "runs": [
+   {
+    "engine": "whisper_cpp",
+    "models": [
+     "whisper-tiny",
+     "whisper-tiny-q5_1",
+     "whisper-tiny-q8_0",
+     "whisper-base",
+     "whisper-base-q5_1",
+     "whisper-base-q8_0",
+     "whisper-small"
+    ],
+    "options": {
+     "beam_size": 5,
+     "best_of": 5,
+     "flash_attn": true
+    }
+   },
+   {
+    "engine": "vosk",
+    "models": [
+     "vosk-small-fr-0.22",
+     "vosk-small-en-us-0.15"
+    ],
+    "mode": "stream",
+    "chunk_s": 0.1
+   },
+   {
+    "engine": "sherpa_onnx",
+    "models": [
+     "sherpa-zipformer-fr-kroko-2025-08-06",
+     "sherpa-zipformer-en-kroko-2025-08-06"
+    ],
+    "mode": "stream",
+    "chunk_s": 0.1,
+    "options": {
+     "decoding_method": "greedy_search"
+    }
+   },
+   {
+    "engine": "moonshine",
+    "models": [
+     "moonshine-tiny-en",
+     "moonshine-base-en",
+     "moonshine-tiny-fr"
+    ],
+    "options": {
+     "tokens_per_second": 6.5
+    }
+   }
+  ]
+ },
+ "cli": {
+  "limit": 20,
+  "threads": null,
+  "only": null,
+  "allow_network": false
+ },
+ "started": "2026-11-06T09:19:34+00:00",
+ "cpus": "0-3",
+ "warmup": 1,
+ "host": {
+  "hostname": "vm",
+  "label": "DEV-HOST BASELINE - not RK3566 numbers",
+  "is_target_board": false,
+  "board": null,
+  "cpu_model": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "arch": "x86_64",
+  "cores": 4,
+  "ram_gib": 15.71,
+  "os": "Ubuntu 24.04.5 LTS",
+  "kernel": "6.18.44-fc-v242",
+  "cpu_governor": null,
+  "cpu_max_khz": null,
+  "python": "3.13.18",
+  "packages": {
+   "vosk": "0.3.45",
+   "sherpa-onnx": "2.0.1",
+   "onnxruntime": "1.31.1",
+   "tokenizers": "0.23.3",
+   "numpy": "2.5.4",
+   "jiwer": "4.0.0",
+   "psutil": "7.2.2"
+  },
+  "ffmpeg": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "repo": {
+   "commit": "0b3a6713a1a4e9a646ecc821c7aa9f40b4dec6b4",
+   "branch": "phase1-bench-harness",
+   "dirty": false
+  }
+ },
+ "network_isolation": {
+  "enabled": true,
+  "detail": "unshare -rn: no network inside the namespace",
+  "env": {
+   "HF_HUB_OFFLINE": "1",
+   "TRANSFORMERS_OFFLINE": "1",
+   "HF_DATASETS_OFFLINE": "1"
+  }
+ },
+ "runs": [
+  {
+   "engine": "whisper_cpp",
+   "model": "whisper-tiny",
+   "lang": "fr",
+   "dataset": "fleurs",
+   "mode": "offline",
+   "threads": 4,
+   "options": {
+    "beam_size": 5,
+    "best_of": 5,
+    "flash_attn": true
+   },
+   "chunk_s": null,
+   "realtime": null,
+   "power": {
+    "idle_w": null,
+    "active_w": null,
+    "meter": null,
+    "note": "manual reading; not measured"
+   },
+   "model_info": {
+    "id": "whisper-tiny",
+    "source": "https://huggingface.co/ggerganov/whisper.cpp",
+    "revision": "5359861c739e955e79d9a303bcbc70fb988958b1",
+    "licence": "MIT (OpenAI Whisper weights, ggml conversion by ggerganov)",
+    "size_on_disk_bytes": 77691713,
+    "files": [
+     {
+      "path": "ggml-tiny.bin",
+      "sha256": "be07e048e1e599ad46341c8d2a135645097a538221678b7acdd1b1919c6e1b21",
+      "size": 77691713,
+      "sha256_source": "hf-lfs"
+     }
+    ]
+   },
+   "command": [
+    "taskset",
+    "-c",
+    "0-3",
+    "unshare",
+    "-rn",
+    "/home/user/meshtastic-offline-stt/.venv/bin/python",
+    "-m",
+    "bench.worker",
+    "/home/user/meshtastic-offline-stt/results/vm_2026-11-06/raw/whisper_cpp__whisper-tiny__fr__offline__t4.job.json"
+   ],
+   "load_s": 0.0836345,
+   "peak_rss_mb": 176.12109375,
+   "peak_rss_scope": "whisper-cli child process",
+   "baseline_rss_mb": 12.63671875,
+   "rss_after_load_mb": 40.2421875,
+   "cpus_allowed": 4,
+   "engine_info": {
+    "engine": "whisper.cpp",
+    "version": "",
+    "commit": "0b3a6713a1a4e9a646ecc821c7aa9f40b4dec6b4",
+    "binary": "/home/user/meshtastic-offline-stt/third_party/whisper.cpp/build/bin/whisper-cli",
+    "cli_args": [
+     "-m",
+     "/home/user/meshtastic-offline-stt/models/whisper-tiny/ggml-tiny.bin",
+     "-l",
+     "fr",
+     "-t",
+     "4",
+     "-nt",
+     "-bs",
+     "5",
+     "-bo",
+     "5",
+     "-fa"
+    ],
+    "decoding": {
+     "beam_size": 5,
+     "best_of": 5,
+     "flash_attn": true,
+     "no_fallback": false,
+     "threads": 4,
+     "lang": "fr"
+    }
+   },
+   "summary": {
+    "n_utterances": 20,
+    "n_errors": 0,
+    "audio_s": 197.64000000000001,
+    "wer_raw": 0.4280155642023346,
+    "cer_raw": 0.16907470027666768,
+    "wer": 0.3857677902621723,
+    "cer": 0.14843996218090136,
+    "rtf_mean": 0.10600035329988541,
+    "rtf_p90": 0.13615682530413623,
+    "rtf_total": 0.0974233960736693,
+    "latency_mean_s": 0.9627380000000001,
+    "latency_p90_s": 1.3748580000000001,
+    "stream_latency_mean_s": null,
+    "stream_latency_p90_s": null,
+    "cpu_util_mean": 0.8533026646351931
+   },
+   "utterances": [
+    {
+     "utt_id": "fleurs-fr-1829-7105431834829365765",
+     "duration": 9.42,
+     "hypothesis": "Voyageons la destination de pays où les taxes sont élevées peuvent parfois faire des économies considérables en particulier sur des produits comme les voiciens à l'alcooliser ou le tava.",
+     "proc_s": 1.0329,
+     "rtf": 0.10964968152866242,
+     "cpu_util": 0.8664294592221087,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1679-17999210160761730950",
+     "duration": 6.0,
+     "hypothesis": "Le compagre et grossement, c'est un mille et dernier concert de sa tournée.",
+     "proc_s": 0.62575,
+     "rtf": 0.10429166666666667,
+     "cpu_util": 0.8238652208079859,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1707-17467158799788389101",
+     "duration": 8.22,
+     "hypothesis": "Il s'agit de l'un des parques d'attraction et plus connu en Afrique du Sud et qu'on s'est donné qu'on lui fait rendez-vous sur l'Africain sans parques.",
+     "proc_s": 1.2259,
+     "rtf": 0.14913625304136252,
+     "cpu_util": 0.7999459052282906,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1763-8969527857548188961",
+     "duration": 7.02,
+     "hypothesis": "Tout comme la lune exerce une traction sur la terre, provoquante démarrer la voie lactée exerce une force sur la galaxie du solitaire.",
+     "proc_s": 0.93882,
+     "rtf": 0.13373504273504275,
+     "cpu_util": 0.8513576646859353,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1844-7989253100718399733",
+     "duration": 7.56,
+     "hypothesis": "La surface de la lune est constituée de pierre, de pousser, sa couche extérieure est à peu les lacroupes.",
+     "proc_s": 0.81228,
+     "rtf": 0.10744444444444445,
+     "cpu_util": 0.8351124657233022,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1842-3186650348647403380",
+     "duration": 18.78,
+     "hypothesis": "étant donné que les plumes de Dinosaur n'ont pas une tige entièrement développée, que l'on appelle Rashi, mais montre ce pendant d'autres caractéristiques propres plumes, barbe et barbule. Et chercheurs en mon déduis que les Rashi étaient probablement un développement évolutifulteriaire à ses autres caractéristiques.",
+     "proc_s": 1.5885099999999999,
+     "rtf": 0.08458519701810435,
+     "cpu_util": 0.8964485009867594,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1866-118005971910520590",
+     "duration": 10.86,
+     "hypothesis": "Premièrement, la plupart des cavaliers porte des bottes d'équitation avec un talon et une osmelle liste et assez étroite.",
+     "proc_s": 0.75652,
+     "rtf": 0.06966114180478822,
+     "cpu_util": 0.8563157023728467,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1925-12217957387078475556",
+     "duration": 8.88,
+     "hypothesis": "Le travail effectuel était principalement théorique, le programme a été écrit pour simuler les observations faites de la galaxie du séjetaire.",
+     "proc_s": 0.75537,
+     "rtf": 0.08506418918918918,
+     "cpu_util": 0.840030498731487,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1975-14361567643536061453",
+     "duration": 9.36,
+     "hypothesis": "Le Vatican contre environ 800 habitants. C'est le plus petit pays indépendant au monde et le moins peu plus.",
+     "proc_s": 0.71,
+     "rtf": 0.07585470085470085,
+     "cpu_util": 0.846927119660489,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1797-15942080413960253441",
+     "duration": 8.46,
+     "hypothesis": "Tout le monde fait partie de la société et utilise des systèmes de transport, quasiment tout le monde se planne des systèmes de transport.",
+     "proc_s": 0.75828,
+     "rtf": 0.08963120567375885,
+     "cpu_util": 0.8506841314702741,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1775-9747669897173511466",
+     "duration": 7.5,
+     "hypothesis": "Je peux leregistrement en vidéo amener à de grandes dégouverts dans l'interprétation des micro-expressions c'est-à-dire l'expression façade durant quelques minutes et secondes.",
+     "proc_s": 1.01036,
+     "rtf": 0.13471466666666665,
+     "cpu_util": 0.8518321669758042,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1985-17508721816441963353",
+     "duration": 14.04,
+     "hypothesis": "Cela ressemble ce qu'il y a en donner notre type à part, ainsi qu'à l'alpinisme, sans toutefois incorporer en général ces activités qui se pratiquent sur des terrains qui s'identaient et qui exige l'utilisation de ce qu'il y ait de bat beaucoup plus rigide.",
+     "proc_s": 1.37284,
+     "rtf": 0.0977806267806268,
+     "cpu_util": 0.8764665423341891,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1896-2470164086297473470",
+     "duration": 14.46,
+     "hypothesis": "U-E-H-G-M-N-S-II, de l'U-S-O-C, on le même objectif, rendre la gymnastique ainsi que d'autres sports au sessure que possible pour que les acclètes puissent pour suivre le rêve dans un environnement sûr positif et responsable.",
+     "proc_s": 1.39302,
+     "rtf": 0.09633609958506223,
+     "cpu_util": 0.8835139584804731,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1983-7555885479938165020",
+     "duration": 20.52,
+     "hypothesis": "Le terme civilisation est dérivée du Molatin, civiliste, qui signifie civil et qui est apparenté au Molatin, civiliste qui signifie citoyen, et si vitesse qui veut dire Grand ville ou ville est un et qui indique aussi en quelque sorte. La taille de la société a la gueille sur apporte.",
+     "proc_s": 1.3414000000000001,
+     "rtf": 0.06537037037037038,
+     "cpu_util": 0.8912037029304613,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1662-9182067139125495353",
+     "duration": 6.42,
+     "hypothesis": "Les alliages sont essentiellement un mélange de 2 méthodes, plus n'oubliez pas que le tableau périodique contorte de nombreuses éléments.",
+     "proc_s": 0.8606099999999999,
+     "rtf": 0.13405140186915887,
+     "cpu_util": 0.8389659382248065,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1798-3683527580499257367",
+     "duration": 8.46,
+     "hypothesis": "Initialement, les missions étaient uniquement diffusées sur le venérable site radio-interne tout guinette radio, un site consacré à l'heure de parler.",
+     "proc_s": 0.79851,
+     "rtf": 0.09438652482269504,
+     "cpu_util": 0.8662886606015936,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1715-5184613783463364583",
+     "duration": 15.18,
+     "hypothesis": "Les annonces régulières dans le métro, de son fait qu'en catalans, mais les perturbations imprévus sont annoncées par un système automatisé dans de nombreuses langues dont l'Espagnol l'englais, le français, l'arab et le Japonais.",
+     "proc_s": 1.2105500000000002,
+     "rtf": 0.07974637681159422,
+     "cpu_util": 0.8768475940388832,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1744-15679345674072383870",
+     "duration": 6.96,
+     "hypothesis": "En ce qui concerne les inversions magnétiques, que de nos rispiller petits, moins étoiles et tactiles.",
+     "proc_s": 0.6715199999999999,
+     "rtf": 0.09648275862068964,
+     "cpu_util": 0.8272768378629535,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1839-7250834376430784014",
+     "duration": 3.54,
+     "hypothesis": "Ensuite, il y a l'équinard de ce qui comme une carrière dont on est finidaire.",
+     "proc_s": 0.69201,
+     "rtf": 0.19548305084745762,
+     "cpu_util": 0.8387831433333802,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1947-2757290274126351777",
+     "duration": 6.0,
+     "hypothesis": "Avant de la rêver des tropes, Aïtine n'avait pas rencontré de problèmes ni à la maladie depuis des années 1800.",
+     "proc_s": 0.69961,
+     "rtf": 0.11660166666666666,
+     "cpu_util": 0.8477580790318392,
+     "stream_latency_s": null,
+     "error": null
+    }
+   ],
+   "offline": {
+    "network_namespace": true,
+    "python_net_attempts": [],
+    "strace": {
+     "attempts": [],
+     "sockets_created": []
+    },
+    "ok": true
+   },
+   "status": "ok"
+  },
+  {
+   "engine": "whisper_cpp",
+   "model": "whisper-tiny",
+   "lang": "en",
+   "dataset": "fleurs",
+   "mode": "offline",
+   "threads": 4,
+   "options": {
+    "beam_size": 5,
+    "best_of": 5,
+    "flash_attn": true
+   },
+   "chunk_s": null,
+   "realtime": null,
+   "power": {
+    "idle_w": null,
+    "active_w": null,
+    "meter": null,
+    "note": "manual reading; not measured"
+   },
+   "model_info": {
+    "id": "whisper-tiny",
+    "source": "https://huggingface.co/ggerganov/whisper.cpp",
+    "revision": "5359861c739e955e79d9a303bcbc70fb988958b1",
+    "licence": "MIT (OpenAI Whisper weights, ggml conversion by ggerganov)",
+    "size_on_disk_bytes": 77691713,
+    "files": [
+     {
+      "path": "ggml-tiny.bin",
+      "sha256": "be07e048e1e599ad46341c8d2a135645097a538221678b7acdd1b1919c6e1b21",
+      "size": 77691713,
+      "sha256_source": "hf-lfs"
+     }
+    ]
+   },
+   "command": [
+    "taskset",
+    "-c",
+    "0-3",
+    "unshare",
+    "-rn",
+    "/home/user/meshtastic-offline-stt/.venv/bin/python",
+    "-m",
+    "bench.worker",
+    "/home/user/meshtastic-offline-stt/results/vm_2026-11-06/raw/whisper_cpp__whisper-tiny__en__offline__t4.job.json"
+   ],
+   "load_s": 0.086421,
+   "peak_rss_mb": 175.67578125,
+   "peak_rss_scope": "whisper-cli child process",
+   "baseline_rss_mb": 12.6640625,
+   "rss_after_load_mb": 40.21484375,
+   "cpus_allowed": 4,
+   "engine_info": {
+    "engine": "whisper.cpp",
+    "version": "",
+    "commit": "0b3a6713a1a4e9a646ecc821c7aa9f40b4dec6b4",
+    "binary": "/home/user/meshtastic-offline-stt/third_party/whisper.cpp/build/bin/whisper-cli",
+    "cli_args": [
+     "-m",
+     "/home/user/meshtastic-offline-stt/models/whisper-tiny/ggml-tiny.bin",
+     "-l",
+     "en",
+     "-t",
+     "4",
+     "-nt",
+     "-bs",
+     "5",
+     "-bo",
+     "5",
+     "-fa"
+    ],
+    "decoding": {
+     "beam_size": 5,
+     "best_of": 5,
+     "flash_attn": true,
+     "no_fallback": false,
+     "threads": 4,
+     "lang": "en"
+    }
+   },
+   "summary": {
+    "n_utterances": 20,
+    "n_errors": 0,
+    "audio_s": 188.16,
+    "wer_raw": 0.20785219399538107,
+    "cer_raw": 0.07891682785299807,
+    "wer": 0.13769751693002258,
+    "cer": 0.06420927467300833,
+    "rtf_mean": 0.07732877854679567,
+    "rtf_p90": 0.10039236505681819,
+    "rtf_total": 0.07186878188775511,
+    "latency_mean_s": 0.6761415000000001,
+    "latency_p90_s": 0.8068709999999999,
+    "stream_latency_mean_s": null,
+    "stream_latency_p90_s": null,
+    "cpu_util_mean": 0.835017282825928
+   },
+   "utterances": [
+    {
+     "utt_id": "fleurs-en-1980-12741024238657315067",
+     "duration": 12.64,
+     "hypothesis": "Unfortunately, stunning traffic flow is difficult because driving behavior cannot be predicted with 100% certainty.",
+     "proc_s": 0.56727,
+     "rtf": 0.04487895569620253,
+     "cpu_util": 0.8300789624114137,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1914-621925716775998155",
+     "duration": 5.88,
+     "hypothesis": "20th century research shown that there are two pools of genetic variation hidden and expressed.",
+     "proc_s": 0.54882,
+     "rtf": 0.09333673469387754,
+     "cpu_util": 0.81223891137657,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1771-2589557553267364799",
+     "duration": 8.94,
+     "hypothesis": "Remember that even though music on the main stages may have finished, there may be sections of the festival that will keep playing music until late into the night.",
+     "proc_s": 0.75152,
+     "rtf": 0.08406263982102909,
+     "cpu_util": 0.8414822149567058,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1669-8173060820032255320",
+     "duration": 9.14,
+     "hypothesis": "Police Superintendent Shinra Shankar Solanski said he accused appear in court with covered faces.",
+     "proc_s": 0.5785999999999999,
+     "rtf": 0.06330415754923412,
+     "cpu_util": 0.8198400452893395,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1949-2652155470394119415",
+     "duration": 6.72,
+     "hypothesis": "The term bug is used by end homologists and a formal sense for this group of insects.",
+     "proc_s": 0.5956300000000001,
+     "rtf": 0.08863541666666669,
+     "cpu_util": 0.831492593037515,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1832-18066939864018796519",
+     "duration": 10.38,
+     "hypothesis": "Popular sports include football, basketball, volleyball, water pillow, fencing, rugby, cycling, ice hockey, roller hockey, and F1 motor racing.",
+     "proc_s": 0.75226,
+     "rtf": 0.07247206165703275,
+     "cpu_util": 0.8537169497460241,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1915-16847628585853049714",
+     "duration": 13.34,
+     "hypothesis": "You can use boat of boat a more recycled taxi to get around Goma. The normal local price is 500. It can go these francs for the short ride.",
+     "proc_s": 0.79291,
+     "rtf": 0.059438530734632684,
+     "cpu_util": 0.8610964755762415,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1699-1596269393232229615",
+     "duration": 9.6,
+     "hypothesis": "Bishkek was described as sinking into a state of Anarchy by one observer as gangs of people roam the streets and plundered stores of consumer goods.",
+     "proc_s": 0.7607400000000001,
+     "rtf": 0.07924375000000002,
+     "cpu_util": 0.8501812409789702,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1673-2637301866626572038",
+     "duration": 10.08,
+     "hypothesis": "During the Revolutionary War, the 13 states first formed a week central government with the Congress being its only component under the articles of Confederation.",
+     "proc_s": 0.6980200000000001,
+     "rtf": 0.06924801587301588,
+     "cpu_util": 0.8479627627147646,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1877-1722118868151836971",
+     "duration": 19.56,
+     "hypothesis": "Current Senator and Argentine Firstly Christina Fernandez, Dave Kirchner, announced her presidential candidacy yesterday evening in La Plata, a city 50 kilometers for U.S. miles away from Buenos Aires.",
+     "proc_s": 0.93252,
+     "rtf": 0.047674846625766876,
+     "cpu_util": 0.8694335337043787,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1860-13230261475791184258",
+     "duration": 4.56,
+     "hypothesis": "The governor's office in 19th of the injured police officers.",
+     "proc_s": 0.4714300000000001,
+     "rtf": 0.10338377192982459,
+     "cpu_util": 0.7952379273154165,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1935-5106380017322065030",
+     "duration": 8.54,
+     "hypothesis": "However, that is not true. Although there is something written on the back of the document, it is not a treasure map.",
+     "proc_s": 0.6530100000000001,
+     "rtf": 0.0764648711943794,
+     "cpu_util": 0.845624354083453,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1674-10492135991603561867",
+     "duration": 5.64,
+     "hypothesis": "In some areas boiling water for a minute is enough and other several minutes are needed.",
+     "proc_s": 0.52558,
+     "rtf": 0.09318794326241137,
+     "cpu_util": 0.7880455768066181,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1675-6817878979697223927",
+     "duration": 6.6,
+     "hypothesis": "All nouns alongside the words \"C\" for you, always speaking with a capital letter, even in the middle of a sentence.",
+     "proc_s": 0.66225,
+     "rtf": 0.10034090909090909,
+     "cpu_util": 0.8172709935257414,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1728-10197164397713068203",
+     "duration": 5.76,
+     "hypothesis": "The cabbage juice changes color depending on how acidic, basic alkaline the chemical is.",
+     "proc_s": 0.48809,
+     "rtf": 0.08473784722222223,
+     "cpu_util": 0.7897176783200699,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1798-1218355507714944126",
+     "duration": 13.18,
+     "hypothesis": "It's early days, the show was featured solely at the Wong running internet radio site, Tokyo Net Radio, a site focused on talk radio.",
+     "proc_s": 0.7168699999999999,
+     "rtf": 0.05439074355083459,
+     "cpu_util": 0.8302338879094734,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1924-283614893570272908",
+     "duration": 7.68,
+     "hypothesis": "Four skiers in the women sitting group failed to finish their runs and 45 of the 111 total skiers in the giant final failed to rank in the race.",
+     "proc_s": 0.77457,
+     "rtf": 0.10085546875,
+     "cpu_util": 0.857160455914834,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1684-4496786334735634498",
+     "duration": 10.96,
+     "hypothesis": "Opio is the capital of Simoa. The town is on the island of Upovo and has a population of just under 40,000.",
+     "proc_s": 0.6987599999999999,
+     "rtf": 0.06375547445255474,
+     "cpu_util": 0.8468182586645823,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1936-5505398583576174352",
+     "duration": 12.6,
+     "hypothesis": "Mary stated that he would return to Texas to assess the results of tonight's caucus to determine whether it is a pass forward for myself in this race. But later said that he would remain in the race and compete in the January 21 South Carolina primary.",
+     "proc_s": 0.99108,
+     "rtf": 0.07865714285714286,
+     "cpu_util": 0.879703092609423,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1661-6917907748364342404",
+     "duration": 6.36,
+     "hypothesis": "He did not set a figure for the cut saying they will be made based on China's economic output.",
+     "proc_s": 0.5629000000000001,
+     "rtf": 0.08850628930817611,
+     "cpu_util": 0.8330097415770253,
+     "stream_latency_s": null,
+     "error": null
+    }
+   ],
+   "offline": {
+    "network_namespace": true,
+    "python_net_attempts": [],
+    "strace": {
+     "attempts": [],
+     "sockets_created": []
+    },
+    "ok": true
+   },
+   "status": "ok"
+  },
+  {
+   "engine": "whisper_cpp",
+   "model": "whisper-tiny-q5_1",
+   "lang": "fr",
+   "dataset": "fleurs",
+   "mode": "offline",
+   "threads": 4,
+   "options": {
+    "beam_size": 5,
+    "best_of": 5,
+    "flash_attn": true
+   },
+   "chunk_s": null,
+   "realtime": null,
+   "power": {
+    "idle_w": null,
+    "active_w": null,
+    "meter": null,
+    "note": "manual reading; not measured"
+   },
+   "model_info": {
+    "id": "whisper-tiny-q5_1",
+    "source": "https://huggingface.co/ggerganov/whisper.cpp",
+    "revision": "5359861c739e955e79d9a303bcbc70fb988958b1",
+    "licence": "MIT (OpenAI Whisper weights, ggml conversion by ggerganov)",
+    "size_on_disk_bytes": 32152673,
+    "files": [
+     {
+      "path": "ggml-tiny-q5_1.bin",
+      "sha256": "818710568da3ca15689e31a743197b520007872ff9576237bda97bd1b469c3d7",
+      "size": 32152673,
+      "sha256_source": "hf-lfs"
+     }
+    ]
+   },
+   "command": [
+    "taskset",
+    "-c",
+    "0-3",
+    "unshare",
+    "-rn",
+    "/home/user/meshtastic-offline-stt/.venv/bin/python",
+    "-m",
+    "bench.worker",
+    "/home/user/meshtastic-offline-stt/results/vm_2026-11-06/raw/whisper_cpp__whisper-tiny-q5_1__fr__offline__t4.job.json"
+   ],
+   "load_s": 0.053976,
+   "peak_rss_mb": 133.14453125,
+   "peak_rss_scope": "whisper-cli child process",
+   "baseline_rss_mb": 12.6953125,
+   "rss_after_load_mb": 40.3671875,
+   "cpus_allowed": 4,
+   "engine_info": {
+    "engine": "whisper.cpp",
+    "version": "",
+    "commit": "0b3a6713a1a4e9a646ecc821c7aa9f40b4dec6b4",
+    "binary": "/home/user/meshtastic-offline-stt/third_party/whisper.cpp/build/bin/whisper-cli",
+    "cli_args": [
+     "-m",
+     "/home/user/meshtastic-offline-stt/models/whisper-tiny-q5_1/ggml-tiny-q5_1.bin",
+     "-l",
+     "fr",
+     "-t",
+     "4",
+     "-nt",
+     "-bs",
+     "5",
+     "-bo",
+     "5",
+     "-fa"
+    ],
+    "decoding": {
+     "beam_size": 5,
+     "best_of": 5,
+     "flash_attn": true,
+     "no_fallback": false,
+     "threads": 4,
+     "lang": "fr"
+    }
+   },
+   "summary": {
+    "n_utterances": 20,
+    "n_errors": 0,
+    "audio_s": 197.64000000000001,
+    "wer_raw": 0.433852140077821,
+    "cer_raw": 0.16907470027666768,
+    "wer": 0.3857677902621723,
+    "cer": 0.14780964387015444,
+    "rtf_mean": 0.13195129130575703,
+    "rtf_p90": 0.1694847023033464,
+    "rtf_total": 0.11940022262699858,
+    "latency_mean_s": 1.179913,
+    "latency_p90_s": 1.598309,
+    "stream_latency_mean_s": null,
+    "stream_latency_p90_s": null,
+    "cpu_util_mean": 0.8938868625481661
+   },
+   "utterances": [
+    {
+     "utt_id": "fleurs-fr-1829-7105431834829365765",
+     "duration": 9.42,
+     "hypothesis": "Voyageons à destination de pays où les taxes sont élevées peuvent parfois faire des économies considérable en particulier sur des produits comme les voiciens à l'alcooliser ou le taver.",
+     "proc_s": 1.1769000000000003,
+     "rtf": 0.12493630573248411,
+     "cpu_util": 0.8917388480339176,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1679-17999210160761730950",
+     "duration": 6.0,
+     "hypothesis": "Le compagre et grossement, c'est un milieu des derniers concerts de sa tournée.",
+     "proc_s": 0.77769,
+     "rtf": 0.129615,
+     "cpu_util": 0.8804947885827669,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1707-17467158799788389101",
+     "duration": 8.22,
+     "hypothesis": "Et s'agit de l'un des parcs d'attraction et plus connu en Afrique du Sud et qu'on s'est donné comme le Führon des parcs, n'est-ce que nous sommes aussi d'Africains sans parcs ?",
+     "proc_s": 2.11471,
+     "rtf": 0.2572639902676399,
+     "cpu_util": 0.9052939872685287,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1763-8969527857548188961",
+     "duration": 7.02,
+     "hypothesis": "Tout comme la lune exerce une fraction sur la terre, provoquante démarrer la voie lactée exerce une force sur la galaxie du salut tard.",
+     "proc_s": 1.1312200000000001,
+     "rtf": 0.16114245014245016,
+     "cpu_util": 0.8918701360530169,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1844-7989253100718399733",
+     "duration": 7.56,
+     "hypothesis": "La surface de la lune est constituée de pierres, de poussère, sa couche, extérieure et t'appelée la croûte.",
+     "proc_s": 1.05771,
+     "rtf": 0.13990873015873015,
+     "cpu_util": 0.8953912276089319,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1842-3186650348647403380",
+     "duration": 18.78,
+     "hypothesis": "étant donné que les plumes de Dinosaur n'ont pas une tige entièrement développée, que l'on appelle Rashi, mais montre se pendant d'autres caractéristiques, propre plumes, barbe et barbule. Les chercheurs en m'ont déduis que les Rashi étaient probablement un développement évolutifulteriaire à ces autres caractéristiques.",
+     "proc_s": 1.78739,
+     "rtf": 0.0951751863684771,
+     "cpu_util": 0.9119661272625442,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1866-118005971910520590",
+     "duration": 10.86,
+     "hypothesis": "Premièrement, la plupart des cavaliés portent des bottes d'équitations avec un talon et une osse melle liste et assez étroit.",
+     "proc_s": 0.98763,
+     "rtf": 0.09094198895027625,
+     "cpu_util": 0.8859694201280134,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1925-12217957387078475556",
+     "duration": 8.88,
+     "hypothesis": "Le travail effectuel était principalement thébrique, le programme a été écrit pour simuler les observations de la Galaxie du Céjitaire.",
+     "proc_s": 0.8647199999999999,
+     "rtf": 0.09737837837837836,
+     "cpu_util": 0.885934582020042,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1975-14361567643536061453",
+     "duration": 9.36,
+     "hypothesis": "Le Vatican contre environ 800 habitants, c'est le plus petit pays indépendant au monde et le moins peu plus.",
+     "proc_s": 0.7910999999999999,
+     "rtf": 0.08451923076923076,
+     "cpu_util": 0.8824473151643308,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1797-15942080413960253441",
+     "duration": 8.46,
+     "hypothesis": "Tout le monde fait partie de la société et utilise des systèmes de transport, quasiment tout le monde se planister de transport.",
+     "proc_s": 0.85329,
+     "rtf": 0.10086170212765956,
+     "cpu_util": 0.8840951291606554,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1775-9747669897173511466",
+     "duration": 7.5,
+     "hypothesis": "Je veux que l'enregistrement vidéo a mené à de grandes égovers dans l'interprétation des micro-expression, c'est-à-dire l'expression façade durant quelques ministres secondes.",
+     "proc_s": 1.1727100000000001,
+     "rtf": 0.15636133333333335,
+     "cpu_util": 0.9049351023871812,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1985-17508721816441963353",
+     "duration": 14.04,
+     "hypothesis": "Cela ressemble le ski d'endonnaie de petit pas le pain, ainsi qu'à l'alpiniest, sans toutefois incorporer en général ces activités qui se pratiquent sur des terrains qui n'ont été et qui exige l'utilisation de ce qui est de bat beaucoup plus rigide.",
+     "proc_s": 1.57189,
+     "rtf": 0.11195797720797722,
+     "cpu_util": 0.8996435201018244,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1896-2470164086297473470",
+     "duration": 14.46,
+     "hypothesis": "U-E-H-A-G-M-N-S-II, de l'U-S-O-K, on le même objectif, rendre la gymnastique ainsi que d'autres sports, ou c'est sûr que possible, pour que les acclètes puissent pour vivre le rêve dans un environnement sûr positif et responsable.",
+     "proc_s": 1.53908,
+     "rtf": 0.10643706777316735,
+     "cpu_util": 0.9128071997999629,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1983-7555885479938165020",
+     "duration": 20.52,
+     "hypothesis": "Le terme civilisation est dérivée du Molatin, civilice qui signifie civil et qui est apportant au Molatin, civilice qui signifie citoyens et si vitesse qui veut dire grand ville ou ville est un et qui indique aussi en quelque sorte. L'attaille de la société à laquelle il sera porte.",
+     "proc_s": 1.5773,
+     "rtf": 0.07686647173489279,
+     "cpu_util": 0.900947514856783,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1662-9182067139125495353",
+     "duration": 6.42,
+     "hypothesis": "Les alliages sont essentiellement à mélange de deux métaux, plus n'oubliez pas que le tableau périodique contorte de nombreuses éléments.",
+     "proc_s": 1.01251,
+     "rtf": 0.15771183800623054,
+     "cpu_util": 0.8915711945447031,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1798-3683527580499257367",
+     "duration": 8.46,
+     "hypothesis": "Initialement, les missions étaient uniquement diffusées sur le venérable site radio-internt, tout guinette radio, ainsi qu'on se fait à la radio parler.",
+     "proc_s": 1.07259,
+     "rtf": 0.1267836879432624,
+     "cpu_util": 0.8913123767039665,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1715-5184613783463364583",
+     "duration": 15.18,
+     "hypothesis": "Les annonces réguliers dans le métro de son fait qu'en catalan, mais les perturbations imprévus sont annoncées par un système automatisé dans de nombreuses longues dont les spagnols l'englais, le français, l'arab et le japonais.",
+     "proc_s": 1.4205100000000002,
+     "rtf": 0.09357773386034257,
+     "cpu_util": 0.9115529607672702,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1744-15679345674072383870",
+     "duration": 6.96,
+     "hypothesis": "En ce qui concerne les inversions magnatiques, que de nos grosses billets que tient, moins nettoyant et tactif.",
+     "proc_s": 0.90929,
+     "rtf": 0.13064511494252876,
+     "cpu_util": 0.8871120413751964,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1839-7250834376430784014",
+     "duration": 3.54,
+     "hypothesis": "On s'est à l'écinard de ski comme une tinaard, on donnaissime d'air.",
+     "proc_s": 0.86576,
+     "rtf": 0.24456497175141242,
+     "cpu_util": 0.8699224088260031,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1947-2757290274126351777",
+     "duration": 6.0,
+     "hypothesis": "avant l'arrivée des tropes, a été n'avait pas rencontré de problèmes ni à la maladie depuis les années 1800.",
+     "proc_s": 0.91426,
+     "rtf": 0.15237666666666666,
+     "cpu_util": 0.8927313703176829,
+     "stream_latency_s": null,
+     "error": null
+    }
+   ],
+   "offline": {
+    "network_namespace": true,
+    "python_net_attempts": [],
+    "strace": {
+     "attempts": [],
+     "sockets_created": []
+    },
+    "ok": true
+   },
+   "status": "ok"
+  },
+  {
+   "engine": "whisper_cpp",
+   "model": "whisper-tiny-q5_1",
+   "lang": "en",
+   "dataset": "fleurs",
+   "mode": "offline",
+   "threads": 4,
+   "options": {
+    "beam_size": 5,
+    "best_of": 5,
+    "flash_attn": true
+   },
+   "chunk_s": null,
+   "realtime": null,
+   "power": {
+    "idle_w": null,
+    "active_w": null,
+    "meter": null,
+    "note": "manual reading; not measured"
+   },
+   "model_info": {
+    "id": "whisper-tiny-q5_1",
+    "source": "https://huggingface.co/ggerganov/whisper.cpp",
+    "revision": "5359861c739e955e79d9a303bcbc70fb988958b1",
+    "licence": "MIT (OpenAI Whisper weights, ggml conversion by ggerganov)",
+    "size_on_disk_bytes": 32152673,
+    "files": [
+     {
+      "path": "ggml-tiny-q5_1.bin",
+      "sha256": "818710568da3ca15689e31a743197b520007872ff9576237bda97bd1b469c3d7",
+      "size": 32152673,
+      "sha256_source": "hf-lfs"
+     }
+    ]
+   },
+   "command": [
+    "taskset",
+    "-c",
+    "0-3",
+    "unshare",
+    "-rn",
+    "/home/user/meshtastic-offline-stt/.venv/bin/python",
+    "-m",
+    "bench.worker",
+    "/home/user/meshtastic-offline-stt/results/vm_2026-11-06/raw/whisper_cpp__whisper-tiny-q5_1__en__offline__t4.job.json"
+   ],
+   "load_s": 0.05432050000000001,
+   "peak_rss_mb": 132.38671875,
+   "peak_rss_scope": "whisper-cli child process",
+   "baseline_rss_mb": 12.640625,
+   "rss_after_load_mb": 40.2265625,
+   "cpus_allowed": 4,
+   "engine_info": {
+    "engine": "whisper.cpp",
+    "version": "",
+    "commit": "0b3a6713a1a4e9a646ecc821c7aa9f40b4dec6b4",
+    "binary": "/home/user/meshtastic-offline-stt/third_party/whisper.cpp/build/bin/whisper-cli",
+    "cli_args": [
+     "-m",
+     "/home/user/meshtastic-offline-stt/models/whisper-tiny-q5_1/ggml-tiny-q5_1.bin",
+     "-l",
+     "en",
+     "-t",
+     "4",
+     "-nt",
+     "-bs",
+     "5",
+     "-bo",
+     "5",
+     "-fa"
+    ],
+    "decoding": {
+     "beam_size": 5,
+     "best_of": 5,
+     "flash_attn": true,
+     "no_fallback": false,
+     "threads": 4,
+     "lang": "en"
+    }
+   },
+   "summary": {
+    "n_utterances": 20,
+    "n_errors": 0,
+    "audio_s": 188.16,
+    "wer_raw": 0.22632794457274827,
+    "cer_raw": 0.08433268858800774,
+    "wer": 0.13544018058690746,
+    "cer": 0.06500198176773682,
+    "rtf_mean": 0.10178515086221429,
+    "rtf_p90": 0.12729154753989363,
+    "rtf_total": 0.09325164753401359,
+    "latency_mean_s": 0.8773114999999999,
+    "latency_p90_s": 1.0299599999999998,
+    "stream_latency_mean_s": null,
+    "stream_latency_p90_s": null,
+    "cpu_util_mean": 0.88136424821188
+   },
+   "utterances": [
+    {
+     "utt_id": "fleurs-en-1980-12741024238657315067",
+     "duration": 12.64,
+     "hypothesis": "Unfortunately, standing traffic flow is difficult because drive behavior cannot be predicted with 100% certainty.",
+     "proc_s": 0.75291,
+     "rtf": 0.05956566455696202,
+     "cpu_util": 0.8822376820270813,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1914-621925716775998155",
+     "duration": 5.88,
+     "hypothesis": "20th century research shown that there are two pools of genetic variation hidden and expressed.",
+     "proc_s": 0.7287899999999999,
+     "rtf": 0.1239438775510204,
+     "cpu_util": 0.8723591237312444,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1771-2589557553267364799",
+     "duration": 8.94,
+     "hypothesis": "Remember that even though music on the main stages may have finished, there may be sections of the festival that will keep playing music until late into the night.",
+     "proc_s": 0.91185,
+     "rtf": 0.10199664429530203,
+     "cpu_util": 0.8864503553467165,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1669-8173060820032255320",
+     "duration": 9.14,
+     "hypothesis": "Police Superintendent Shandra Shankar Solanski said he accused appeared in court with covered faces.",
+     "proc_s": 0.75812,
+     "rtf": 0.082945295404814,
+     "cpu_util": 0.8754592479581985,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1949-2652155470394119415",
+     "duration": 6.72,
+     "hypothesis": "The term \"bug\" is used by entomologists and a formal sense for this group of insects.",
+     "proc_s": 0.8358399999999999,
+     "rtf": 0.12438095238095237,
+     "cpu_util": 0.8861392751267781,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1832-18066939864018796519",
+     "duration": 10.38,
+     "hypothesis": "Popular sports include football, basketball, volleyball, water pool, vencing, rugby, cycling, ice hockey, roller hockey, and F1 motor racing.",
+     "proc_s": 0.9742999999999998,
+     "rtf": 0.09386319845857416,
+     "cpu_util": 0.8856135233084872,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1915-16847628585853049714",
+     "duration": 13.34,
+     "hypothesis": "You can use both a border, more a cycle taxi, to get around Goma. The normal local price is 500. It can go all these francs for the short ride.",
+     "proc_s": 0.9977199999999999,
+     "rtf": 0.07479160419790104,
+     "cpu_util": 0.8960197098743062,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1699-1596269393232229615",
+     "duration": 9.6,
+     "hypothesis": "Bishkek was described as sinking into a state of Anarchy by one observer as gangs of people roam the streets and plundered stores of consumer goods.",
+     "proc_s": 0.9802500000000001,
+     "rtf": 0.10210937500000002,
+     "cpu_util": 0.8950416267680209,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1673-2637301866626572038",
+     "duration": 10.08,
+     "hypothesis": "During the Revolutionary War, the 13 states first formed a week central government with the Congress being its only component under the articles of Confederation.",
+     "proc_s": 0.88633,
+     "rtf": 0.08792956349206349,
+     "cpu_util": 0.8722083087388922,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1877-1722118868151836971",
+     "duration": 19.56,
+     "hypothesis": "Current Senator and Argentine First Lady Christina Fernandez, Dave Kirchner, announced her presidential candidacy yesterday evening in La Plata, a city 50 kilometers for E1 miles away from Buenos Aires.",
+     "proc_s": 1.0782899999999997,
+     "rtf": 0.055127300613496924,
+     "cpu_util": 0.9004409074156204,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1860-13230261475791184258",
+     "duration": 4.56,
+     "hypothesis": "The Governor's Office in 19th of the Intrigued Work Police Officers.",
+     "proc_s": 0.71195,
+     "rtf": 0.1561293859649123,
+     "cpu_util": 0.8449898024215028,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1935-5106380017322065030",
+     "duration": 8.54,
+     "hypothesis": "However, that is not true. Although there is something written on the back of the document, it is not a treasure map.",
+     "proc_s": 0.8069799999999999,
+     "rtf": 0.09449414519906323,
+     "cpu_util": 0.888583025998045,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1674-10492135991603561867",
+     "duration": 5.64,
+     "hypothesis": "In some areas boiling water for a minute is enough and other several minutes are needed.",
+     "proc_s": 0.71409,
+     "rtf": 0.12661170212765957,
+     "cpu_util": 0.8677688113599465,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1675-6817878979697223927",
+     "duration": 6.6,
+     "hypothesis": "All nouns alongside the word \"see\" for you. Always speaking with a capital letter, even in the middle of a sentence.",
+     "proc_s": 0.803,
+     "rtf": 0.12166666666666669,
+     "cpu_util": 0.8846196770270499,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1728-10197164397713068203",
+     "duration": 5.76,
+     "hypothesis": "The cap is used to change its color depending on how acidic, basic alkaline the chemical is.",
+     "proc_s": 0.7245,
+     "rtf": 0.12578125,
+     "cpu_util": 0.8694946725000228,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1798-1218355507714944126",
+     "duration": 13.18,
+     "hypothesis": "In its early days, the show was featured solely at the Wong-Running Internet Radio site, Tokyo Network Radio, a site focused on talk radio.",
+     "proc_s": 1.00349,
+     "rtf": 0.07613732928679819,
+     "cpu_util": 0.8605864992532789,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1924-283614893570272908",
+     "duration": 7.68,
+     "hypothesis": "Four skiers in the women sitting group failed to finish their runs and 45 of the 111 total skiers in the giant final failed to rank in the race.",
+     "proc_s": 1.02459,
+     "rtf": 0.13341015625,
+     "cpu_util": 0.8815975276076005,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1684-4496786334735634498",
+     "duration": 10.96,
+     "hypothesis": "Opia is the capital of Simoa. The town is on the island of Upolvut and has a population of just under 40,000.",
+     "proc_s": 0.92763,
+     "rtf": 0.08463777372262772,
+     "cpu_util": 0.9017893116463969,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1936-5505398583576174352",
+     "duration": 12.6,
+     "hypothesis": "Mary stated that he would return to Texas to assess the results of tonight's caucus to determine whether is a path forward for myself in this race. But later said that he would remain in the race and compete in the January 21 South Carolina primary.",
+     "proc_s": 1.18902,
+     "rtf": 0.09436666666666667,
+     "cpu_util": 0.9025411821088967,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1661-6917907748364342404",
+     "duration": 6.36,
+     "hypothesis": "He did not set a figure for the cut saying they will be made based on China's economic output.",
+     "proc_s": 0.7365799999999999,
+     "rtf": 0.11581446540880501,
+     "cpu_util": 0.8733446940195155,
+     "stream_latency_s": null,
+     "error": null
+    }
+   ],
+   "offline": {
+    "network_namespace": true,
+    "python_net_attempts": [],
+    "strace": {
+     "attempts": [],
+     "sockets_created": []
+    },
+    "ok": true
+   },
+   "status": "ok"
+  },
+  {
+   "engine": "whisper_cpp",
+   "model": "whisper-tiny-q8_0",
+   "lang": "fr",
+   "dataset": "fleurs",
+   "mode": "offline",
+   "threads": 4,
+   "options": {
+    "beam_size": 5,
+    "best_of": 5,
+    "flash_attn": true
+   },
+   "chunk_s": null,
+   "realtime": null,
+   "power": {
+    "idle_w": null,
+    "active_w": null,
+    "meter": null,
+    "note": "manual reading; not measured"
+   },
+   "model_info": {
+    "id": "whisper-tiny-q8_0",
+    "source": "https://huggingface.co/ggerganov/whisper.cpp",
+    "revision": "5359861c739e955e79d9a303bcbc70fb988958b1",
+    "licence": "MIT (OpenAI Whisper weights, ggml conversion by ggerganov)",
+    "size_on_disk_bytes": 43537433,
+    "files": [
+     {
+      "path": "ggml-tiny-q8_0.bin",
+      "sha256": "c2085835d3f50733e2ff6e4b41ae8a2b8d8110461e18821b09a15c40c42d1cca",
+      "size": 43537433,
+      "sha256_source": "hf-lfs"
+     }
+    ]
+   },
+   "command": [
+    "taskset",
+    "-c",
+    "0-3",
+    "unshare",
+    "-rn",
+    "/home/user/meshtastic-offline-stt/.venv/bin/python",
+    "-m",
+    "bench.worker",
+    "/home/user/meshtastic-offline-stt/results/vm_2026-11-06/raw/whisper_cpp__whisper-tiny-q8_0__fr__offline__t4.job.json"
+   ],
+   "load_s": 0.064307,
+   "peak_rss_mb": 145.93359375,
+   "peak_rss_scope": "whisper-cli child process",
+   "baseline_rss_mb": 12.6953125,
+   "rss_after_load_mb": 40.390625,
+   "cpus_allowed": 4,
+   "engine_info": {
+    "engine": "whisper.cpp",
+    "version": "",
+    "commit": "8870b39061a94f3f90397af1f2d7caf087dbff47",
+    "binary": "/home/user/meshtastic-offline-stt/third_party/whisper.cpp/build/bin/whisper-cli",
+    "cli_args": [
+     "-m",
+     "/home/user/meshtastic-offline-stt/models/whisper-tiny-q8_0/ggml-tiny-q8_0.bin",
+     "-l",
+     "fr",
+     "-t",
+     "4",
+     "-nt",
+     "-bs",
+     "5",
+     "-bo",
+     "5",
+     "-fa"
+    ],
+    "decoding": {
+     "beam_size": 5,
+     "best_of": 5,
+     "flash_attn": true,
+     "no_fallback": false,
+     "threads": 4,
+     "lang": "fr"
+    }
+   },
+   "summary": {
+    "n_utterances": 20,
+    "n_errors": 0,
+    "audio_s": 197.64000000000001,
+    "wer_raw": 0.42217898832684825,
+    "cer_raw": 0.17245619428220105,
+    "wer": 0.38764044943820225,
+    "cer": 0.15285219035612985,
+    "rtf_mean": 0.09640682012612131,
+    "rtf_p90": 0.1182917698005698,
+    "rtf_total": 0.08900490791337785,
+    "latency_mean_s": 0.8795465,
+    "latency_p90_s": 1.2558799999999999,
+    "stream_latency_mean_s": null,
+    "stream_latency_p90_s": null,
+    "cpu_util_mean": 0.8671478658934436
+   },
+   "utterances": [
+    {
+     "utt_id": "fleurs-fr-1829-7105431834829365765",
+     "duration": 9.42,
+     "hypothesis": "Voyageons la destination de pays où les taxes sont élevées peuvent parfois faire des économies considérables en particulier sur des produits comme les voiciens à l'alcooliser ou le tava.",
+     "proc_s": 0.80955,
+     "rtf": 0.08593949044585987,
+     "cpu_util": 0.8747108048565758,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1679-17999210160761730950",
+     "duration": 6.0,
+     "hypothesis": "Le Comparier-Rosmin, c'est un mille et dernier concert de sa tournée.",
+     "proc_s": 0.64234,
+     "rtf": 0.10705666666666667,
+     "cpu_util": 0.7951421599749708,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1707-17467158799788389101",
+     "duration": 8.22,
+     "hypothesis": "Il s'agit de l'un des parques d'attraction et plus connu en Afrique du Sud et qu'on s'est donné qu'on lui fait rendez-vous sur l'African sans parques.",
+     "proc_s": 0.91235,
+     "rtf": 0.11099148418491483,
+     "cpu_util": 0.8776325584604915,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1763-8969527857548188961",
+     "duration": 7.02,
+     "hypothesis": "Tout comme la lune exerce une traction sur la terre, provoquante démarrer la voie lactée exerce une force sur la galaxie du solitaire.",
+     "proc_s": 0.8635,
+     "rtf": 0.12300569800569802,
+     "cpu_util": 0.8667507910528649,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1844-7989253100718399733",
+     "duration": 7.56,
+     "hypothesis": "La surface de la lune est constituée de pierre, de poussère, sa couche extérieur est à peu les lacroupes.",
+     "proc_s": 0.7195199999999999,
+     "rtf": 0.09517460317460318,
+     "cpu_util": 0.8509032034888816,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1842-3186650348647403380",
+     "duration": 18.78,
+     "hypothesis": "étant donné que les plumes de Dinosaur n'ont pas une petite entièrement développée, que l'on appelle Rashi, mais montre ce pendant d'autres caractéristiques propres plumes. Barbe et Barbeux. Les chercheurs en m'ont dédui que les Rashi étaient probablement un développement évolutifulteriaire à ses autres caractéristiques.",
+     "proc_s": 1.51545,
+     "rtf": 0.08069488817891374,
+     "cpu_util": 0.8927650906711356,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1866-118005971910520590",
+     "duration": 10.86,
+     "hypothesis": "Premièrement, la plupart des cavaliers porte des bottes d'équitation avec un talon et une osmelle liste et assez étroite.",
+     "proc_s": 0.71465,
+     "rtf": 0.06580570902394108,
+     "cpu_util": 0.8579761288409004,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1925-12217957387078475556",
+     "duration": 8.88,
+     "hypothesis": "Le travail effectuel était principalement théorique, le programme a été écrit pour simuler les observations faites de la galaxie du séjetaire.",
+     "proc_s": 0.7710899999999999,
+     "rtf": 0.08683445945945945,
+     "cpu_util": 0.8567819028733024,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1975-14361567643536061453",
+     "duration": 9.36,
+     "hypothesis": "Le Vatican contre environ 800 habitants. C'est le plus petit pays indépendant au monde et le moins peu plus.",
+     "proc_s": 0.61072,
+     "rtf": 0.06524786324786326,
+     "cpu_util": 0.8496451937067988,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1797-15942080413960253441",
+     "duration": 8.46,
+     "hypothesis": "Tout le monde fait partie de la société et utilise des systèmes de transport, quasiment tout le monde se plein de systèmes de transport.",
+     "proc_s": 0.63972,
+     "rtf": 0.07561702127659573,
+     "cpu_util": 0.8599458763102519,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1775-9747669897173511466",
+     "duration": 7.5,
+     "hypothesis": "Je peux leregistrement en vidéo amener à de grandes dégouverts dans l'interprétation des micro-expressions c'est-à-dire, l'expression facile durant quelques minutes.",
+     "proc_s": 0.8832599999999999,
+     "rtf": 0.117768,
+     "cpu_util": 0.8647726563420474,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1985-17508721816441963353",
+     "duration": 14.04,
+     "hypothesis": "Cela ressemble ce qu'il y a en donner notre type, un cycle alpinisme, sans toutefois incorporer en général ses activités qui se pratiquent sur des terrains qui s'identaient et qui exige l'utilisation de ce qui est de bas à tout beaucoup plus rigide.",
+     "proc_s": 1.25128,
+     "rtf": 0.08912250712250712,
+     "cpu_util": 0.8842576818624053,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1896-2470164086297473470",
+     "duration": 14.46,
+     "hypothesis": "U-E-H-G-M-N-S-II, de l'U-S-C, on le même objectif, rendre la gymnastique ainsi que d'autres sports, ou c'est sûr que possible pour que les acclètes puissent pour suivre le rêve dans un environnement sûr positif et responsable.",
+     "proc_s": 1.29728,
+     "rtf": 0.08971507607192254,
+     "cpu_util": 0.8944354707835374,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1983-7555885479938165020",
+     "duration": 20.52,
+     "hypothesis": "Le terme civilisation est dérivée du Molatin, civiliste, qui signifie civil et qui est apparenté au Molatin, civiliste, qui signifie citoyen, et si vitace qui veut dire Grand ville ou ville est un et qui indique aussi en quelque sorte, l'attaille de la société à laquelle il sera porte.",
+     "proc_s": 1.2390999999999999,
+     "rtf": 0.0603849902534113,
+     "cpu_util": 0.9011208199328117,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1662-9182067139125495353",
+     "duration": 6.42,
+     "hypothesis": "Les alliages sont essentiellement un mélange de 2 méthodes, plus n'oubliez pas que le tableau périodique contorte de nombreuses éléments.",
+     "proc_s": 0.7112600000000001,
+     "rtf": 0.1107881619937695,
+     "cpu_util": 0.8680117337341449,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1798-3683527580499257367",
+     "duration": 8.46,
+     "hypothesis": "Initialement, les missions étaient uniquement diffusés sur le venerable site radio-interne, tout guinette radio, ainsi qu'on se fait à l'heure de parler.",
+     "proc_s": 0.86582,
+     "rtf": 0.10234278959810875,
+     "cpu_util": 0.8776983778623237,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1715-5184613783463364583",
+     "duration": 15.18,
+     "hypothesis": "Les annonces régulières dans le métro sont faites qu'en catalans, mais les perturbations imprévus sont annoncées par un système automatisé dans deux nombreuses langues dont l'Espagnol l'englais, le français, l'arab et le japonais.",
+     "proc_s": 1.13347,
+     "rtf": 0.07466864295125164,
+     "cpu_util": 0.8981168897784121,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1744-15679345674072383870",
+     "duration": 6.96,
+     "hypothesis": "En ce qui concerne les inversions magnifiques, que de nos que nos ont de respirer petit, moins nettoyant et tactif.",
+     "proc_s": 0.76918,
+     "rtf": 0.11051436781609195,
+     "cpu_util": 0.8473451971101859,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1839-7250834376430784014",
+     "duration": 3.54,
+     "hypothesis": "Ensuite, à l'équinard, ce qui est comme une tinaard, on donne des similaires.",
+     "proc_s": 0.6006400000000001,
+     "rtf": 0.16967231638418082,
+     "cpu_util": 0.8485262053335589,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1947-2757290274126351777",
+     "duration": 6.0,
+     "hypothesis": "Avant l'arrivée des troupes, IT n'avait pas rencontré de problèmes ni à la maladie depuis les années 1800.",
+     "proc_s": 0.64075,
+     "rtf": 0.10679166666666667,
+     "cpu_util": 0.8764185748932737,
+     "stream_latency_s": null,
+     "error": null
+    }
+   ],
+   "offline": {
+    "network_namespace": true,
+    "python_net_attempts": [],
+    "strace": {
+     "attempts": [],
+     "sockets_created": []
+    },
+    "ok": true
+   },
+   "status": "ok"
+  },
+  {
+   "engine": "whisper_cpp",
+   "model": "whisper-tiny-q8_0",
+   "lang": "en",
+   "dataset": "fleurs",
+   "mode": "offline",
+   "threads": 4,
+   "options": {
+    "beam_size": 5,
+    "best_of": 5,
+    "flash_attn": true
+   },
+   "chunk_s": null,
+   "realtime": null,
+   "power": {
+    "idle_w": null,
+    "active_w": null,
+    "meter": null,
+    "note": "manual reading; not measured"
+   },
+   "model_info": {
+    "id": "whisper-tiny-q8_0",
+    "source": "https://huggingface.co/ggerganov/whisper.cpp",
+    "revision": "5359861c739e955e79d9a303bcbc70fb988958b1",
+    "licence": "MIT (OpenAI Whisper weights, ggml conversion by ggerganov)",
+    "size_on_disk_bytes": 43537433,
+    "files": [
+     {
+      "path": "ggml-tiny-q8_0.bin",
+      "sha256": "c2085835d3f50733e2ff6e4b41ae8a2b8d8110461e18821b09a15c40c42d1cca",
+      "size": 43537433,
+      "sha256_source": "hf-lfs"
+     }
+    ]
+   },
+   "command": [
+    "taskset",
+    "-c",
+    "0-3",
+    "unshare",
+    "-rn",
+    "/home/user/meshtastic-offline-stt/.venv/bin/python",
+    "-m",
+    "bench.worker",
+    "/home/user/meshtastic-offline-stt/results/vm_2026-11-06/raw/whisper_cpp__whisper-tiny-q8_0__en__offline__t4.job.json"
+   ],
+   "load_s": 0.058970999999999996,
+   "peak_rss_mb": 145.32421875,
+   "peak_rss_scope": "whisper-cli child process",
+   "baseline_rss_mb": 12.69140625,
+   "rss_after_load_mb": 40.3125,
+   "cpus_allowed": 4,
+   "engine_info": {
+    "engine": "whisper.cpp",
+    "version": "",
+    "commit": "8870b39061a94f3f90397af1f2d7caf087dbff47",
+    "binary": "/home/user/meshtastic-offline-stt/third_party/whisper.cpp/build/bin/whisper-cli",
+    "cli_args": [
+     "-m",
+     "/home/user/meshtastic-offline-stt/models/whisper-tiny-q8_0/ggml-tiny-q8_0.bin",
+     "-l",
+     "en",
+     "-t",
+     "4",
+     "-nt",
+     "-bs",
+     "5",
+     "-bo",
+     "5",
+     "-fa"
+    ],
+    "decoding": {
+     "beam_size": 5,
+     "best_of": 5,
+     "flash_attn": true,
+     "no_fallback": false,
+     "threads": 4,
+     "lang": "en"
+    }
+   },
+   "summary": {
+    "n_utterances": 20,
+    "n_errors": 0,
+    "audio_s": 188.16,
+    "wer_raw": 0.23094688221709006,
+    "cer_raw": 0.08742746615087041,
+    "wer": 0.1489841986455982,
+    "cer": 0.06896551724137931,
+    "rtf_mean": 0.07159785149772485,
+    "rtf_p90": 0.09271826110455975,
+    "rtf_total": 0.06635267857142857,
+    "latency_mean_s": 0.624246,
+    "latency_p90_s": 0.75907,
+    "stream_latency_mean_s": null,
+    "stream_latency_p90_s": null,
+    "cpu_util_mean": 0.8581259167792377
+   },
+   "utterances": [
+    {
+     "utt_id": "fleurs-en-1980-12741024238657315067",
+     "duration": 12.64,
+     "hypothesis": "Unfortunately, stunning traffic flow is difficult because driving behavior cannot be predicted with 100% certainty.",
+     "proc_s": 0.52363,
+     "rtf": 0.04142642405063291,
+     "cpu_util": 0.8439003479757647,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1914-621925716775998155",
+     "duration": 5.88,
+     "hypothesis": "20th century research shown that there are two pools of genetic variation hidden and expressed.",
+     "proc_s": 0.45457,
+     "rtf": 0.0773078231292517,
+     "cpu_util": 0.8498998809347097,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1771-2589557553267364799",
+     "duration": 8.94,
+     "hypothesis": "Remember that even though music on the main stages may have finished, there may be sections of the festival that will keep playing music until late into the night.",
+     "proc_s": 0.7060099999999999,
+     "rtf": 0.07897203579418344,
+     "cpu_util": 0.8697240031076043,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1669-8173060820032255320",
+     "duration": 9.14,
+     "hypothesis": "Police Superintendent Shandra Shankar Solanski said he accused appear in court with covered faces.",
+     "proc_s": 0.53367,
+     "rtf": 0.05838840262582056,
+     "cpu_util": 0.8527627921890449,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1949-2652155470394119415",
+     "duration": 6.72,
+     "hypothesis": "The term bug is used by end homologists and a formal sense for this group of insects.",
+     "proc_s": 0.5319299999999999,
+     "rtf": 0.07915624999999998,
+     "cpu_util": 0.8525245845250132,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1832-18066939864018796519",
+     "duration": 10.38,
+     "hypothesis": "Popular sports include football, basketball, volleyball, water pool, fencing, rugby, cycling, ice hockey, roller hockey, and F1 motor racing.",
+     "proc_s": 0.6436799999999999,
+     "rtf": 0.0620115606936416,
+     "cpu_util": 0.8664126960949147,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1915-16847628585853049714",
+     "duration": 13.34,
+     "hypothesis": "You can use boat of boat a more recycled taxi to get around Goma. The normal local price is 500. It can go all these Franks for the short ride.",
+     "proc_s": 0.72777,
+     "rtf": 0.05455547226386807,
+     "cpu_util": 0.878180537021955,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1699-1596269393232229615",
+     "duration": 9.6,
+     "hypothesis": "Bishkek was described as sinking into a state of Anarchy by one observer as gangs of people roam the streets and plundered stores of consumer goods.",
+     "proc_s": 0.6963199999999999,
+     "rtf": 0.07253333333333332,
+     "cpu_util": 0.8582866853035089,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1673-2637301866626572038",
+     "duration": 10.08,
+     "hypothesis": "During the Revolutionary War, the 13 states first formed a week central government with the Congress being its only component under the articles of Confederation.",
+     "proc_s": 0.66668,
+     "rtf": 0.0661388888888889,
+     "cpu_util": 0.8523597853251879,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1877-1722118868151836971",
+     "duration": 19.56,
+     "hypothesis": "Current Senator and Argentine Firstly Christina Fernandez, Dave Kirchner, announced her presidential candidacy yesterday evening in La Plata, a city 50 kilometers for U.S. miles away from Buenos Aires.",
+     "proc_s": 0.82225,
+     "rtf": 0.04203732106339469,
+     "cpu_util": 0.8677298118358595,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1860-13230261475791184258",
+     "duration": 4.56,
+     "hypothesis": "The Governor's Office in 19th of the Intrigued Work Police Officers.",
+     "proc_s": 0.46127999999999997,
+     "rtf": 0.10115789473684211,
+     "cpu_util": 0.8274781114216058,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1935-5106380017322065030",
+     "duration": 8.54,
+     "hypothesis": "However, that is not true. Although there is something written on the back of the document, it is not a treasure map.",
+     "proc_s": 0.6323500000000001,
+     "rtf": 0.07404566744730681,
+     "cpu_util": 0.8509427427837912,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1674-10492135991603561867",
+     "duration": 5.64,
+     "hypothesis": "In some areas boiling water for a minute is enough and other several minutes are needed.",
+     "proc_s": 0.47414999999999996,
+     "rtf": 0.08406914893617021,
+     "cpu_util": 0.8446556121183352,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1675-6817878979697223927",
+     "duration": 6.6,
+     "hypothesis": "All nouns alongside the words \"C\" for you. Always speaking with a capital letter, even in the middle of the sentence.",
+     "proc_s": 0.5987899999999999,
+     "rtf": 0.09072575757575757,
+     "cpu_util": 0.8619023343068345,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1728-10197164397713068203",
+     "duration": 5.76,
+     "hypothesis": "The cabbage juice changes color depending on how acidic, basic alkaline the chemical is.",
+     "proc_s": 0.44358,
+     "rtf": 0.07701041666666666,
+     "cpu_util": 0.8333277216156253,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1798-1218355507714944126",
+     "duration": 13.18,
+     "hypothesis": "The end's early days, the show was featured solely at the Wong running internet radio site, talking at radio, a site focused on talk radio.",
+     "proc_s": 0.65749,
+     "rtf": 0.04988543247344462,
+     "cpu_util": 0.8662002255165684,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1924-283614893570272908",
+     "duration": 7.68,
+     "hypothesis": "Four skiers in the women sitting group failed to finish their runs and 45 of the 111 total skiers in the giant final failed to rank in the race.",
+     "proc_s": 0.75205,
+     "rtf": 0.09792317708333334,
+     "cpu_util": 0.871573097341252,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1684-4496786334735634498",
+     "duration": 10.96,
+     "hypothesis": "Opio is the capital of Simoa. The town is on the island of Upovo, and has a population of just under 40,000.",
+     "proc_s": 0.64449,
+     "rtf": 0.058803832116788315,
+     "cpu_util": 0.8658924650927367,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1936-5505398583576174352",
+     "duration": 12.6,
+     "hypothesis": "Mary stated that he would return to Texas to assess the results of tonight's caucus to determine whether it is a pass forward for myself in this race. But later said that he would remain in the race and compete in the January 21 South Carolina primary.",
+     "proc_s": 0.9282199999999999,
+     "rtf": 0.07366825396825397,
+     "cpu_util": 0.8945482723832013,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1661-6917907748364342404",
+     "duration": 6.36,
+     "hypothesis": "He did not set a figure for the cut saying they will be made based on China's economic output.",
+     "proc_s": 0.58601,
+     "rtf": 0.09213993710691824,
+     "cpu_util": 0.8542166286912385,
+     "stream_latency_s": null,
+     "error": null
+    }
+   ],
+   "offline": {
+    "network_namespace": true,
+    "python_net_attempts": [],
+    "strace": {
+     "attempts": [],
+     "sockets_created": []
+    },
+    "ok": true
+   },
+   "status": "ok"
+  },
+  {
+   "engine": "whisper_cpp",
+   "model": "whisper-base",
+   "lang": "fr",
+   "dataset": "fleurs",
+   "mode": "offline",
+   "threads": 4,
+   "options": {
+    "beam_size": 5,
+    "best_of": 5,
+    "flash_attn": true
+   },
+   "chunk_s": null,
+   "realtime": null,
+   "power": {
+    "idle_w": null,
+    "active_w": null,
+    "meter": null,
+    "note": "manual reading; not measured"
+   },
+   "model_info": {
+    "id": "whisper-base",
+    "source": "https://huggingface.co/ggerganov/whisper.cpp",
+    "revision": "5359861c739e955e79d9a303bcbc70fb988958b1",
+    "licence": "MIT (OpenAI Whisper weights, ggml conversion by ggerganov)",
+    "size_on_disk_bytes": 147951465,
+    "files": [
+     {
+      "path": "ggml-base.bin",
+      "sha256": "60ed5bc3dd14eea856493d334349b405782ddcaf0028d4b5df4088345fba2efe",
+      "size": 147951465,
+      "sha256_source": "hf-lfs"
+     }
+    ]
+   },
+   "command": [
+    "taskset",
+    "-c",
+    "0-3",
+    "unshare",
+    "-rn",
+    "/home/user/meshtastic-offline-stt/.venv/bin/python",
+    "-m",
+    "bench.worker",
+    "/home/user/meshtastic-offline-stt/results/vm_2026-11-06/raw/whisper_cpp__whisper-base__fr__offline__t4.job.json"
+   ],
+   "load_s": 0.13456200000000001,
+   "peak_rss_mb": 282.88671875,
+   "peak_rss_scope": "whisper-cli child process",
+   "baseline_rss_mb": 12.66015625,
+   "rss_after_load_mb": 40.328125,
+   "cpus_allowed": 4,
+   "engine_info": {
+    "engine": "whisper.cpp",
+    "version": "",
+    "commit": "8870b39061a94f3f90397af1f2d7caf087dbff47",
+    "binary": "/home/user/meshtastic-offline-stt/third_party/whisper.cpp/build/bin/whisper-cli",
+    "cli_args": [
+     "-m",
+     "/home/user/meshtastic-offline-stt/models/whisper-base/ggml-base.bin",
+     "-l",
+     "fr",
+     "-t",
+     "4",
+     "-nt",
+     "-bs",
+     "5",
+     "-bo",
+     "5",
+     "-fa"
+    ],
+    "decoding": {
+     "beam_size": 5,
+     "best_of": 5,
+     "flash_attn": true,
+     "no_fallback": false,
+     "threads": 4,
+     "lang": "fr"
+    }
+   },
+   "summary": {
+    "n_utterances": 20,
+    "n_errors": 0,
+    "audio_s": 197.64000000000001,
+    "wer_raw": 0.3151750972762646,
+    "cer_raw": 0.11035966799877037,
+    "wer": 0.24531835205992508,
+    "cer": 0.08982035928143713,
+    "rtf_mean": 0.20981401415878662,
+    "rtf_p90": 0.2772913306878307,
+    "rtf_total": 0.19298193685488765,
+    "latency_mean_s": 1.9070474999999998,
+    "latency_p90_s": 2.553823,
+    "stream_latency_mean_s": null,
+    "stream_latency_p90_s": null,
+    "cpu_util_mean": 0.8677978240687843
+   },
+   "utterances": [
+    {
+     "utt_id": "fleurs-fr-1829-7105431834829365765",
+     "duration": 9.42,
+     "hypothesis": "Les voyages à destination de pays où les taxes sont élevés peuvent parfois faire des économies considérables en particulier sur des produits comme les boissants alcoolisés ou le tabac.",
+     "proc_s": 1.84409,
+     "rtf": 0.19576326963906582,
+     "cpu_util": 0.881647771900133,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1679-17999210160761730950",
+     "duration": 6.0,
+     "hypothesis": "Le couper Hiroshima, c'est annulé les derniers concerts de sa tournée.",
+     "proc_s": 1.2090799999999997,
+     "rtf": 0.2015133333333333,
+     "cpu_util": 0.8400169498569428,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1707-17467158799788389101",
+     "duration": 8.22,
+     "hypothesis": "Il s'agit de l'un des parcs d'attractions les plus connus en Afrique du Sud, et considérés comme le furon des parcs nationaux au Sud-Africain, sans parcs.",
+     "proc_s": 1.98578,
+     "rtf": 0.24157907542579074,
+     "cpu_util": 0.8875025819363216,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1763-8969527857548188961",
+     "duration": 7.02,
+     "hypothesis": "Tout comme la lune exerce une traction sur la terre, provoquant démarrer la voile acte exerce une force sur la galaxie du s'ajouter.",
+     "proc_s": 1.84844,
+     "rtf": 0.2633105413105413,
+     "cpu_util": 0.8627699005063102,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1844-7989253100718399733",
+     "duration": 7.56,
+     "hypothesis": "La surface de la lune est constituée de pierres et de poussaires, sa couche extérieure est appelée la croute.",
+     "proc_s": 2.11966,
+     "rtf": 0.2803783068783069,
+     "cpu_util": 0.7578894695829428,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1842-3186650348647403380",
+     "duration": 18.78,
+     "hypothesis": "Et en donné que les plumes de dinosaur n'ont pas une tige en tirant non développée, que l'on appelle rachie, mais montre se pendant d'autres caractéristiques propres aux plumes, barbes et barbules. Les chercheurs en ont déduits que les rachées étaient probablement à un développement évolutif ultérieur à ces autres caractéristiques.",
+     "proc_s": 3.56243,
+     "rtf": 0.18969275825346113,
+     "cpu_util": 0.8601174356452228,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1866-118005971910520590",
+     "duration": 10.86,
+     "hypothesis": "Premièrement, la plupart des cavaliers portent des bottes d'équitation avec un talon et une semelle liste et assez étroite.",
+     "proc_s": 1.7270299999999998,
+     "rtf": 0.15902670349907919,
+     "cpu_util": 0.8503664960404194,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1925-12217957387078475556",
+     "duration": 8.88,
+     "hypothesis": "Le travail effectué était principalement théorique, le programme a été écrit pour simuler les observations faites de la galaxie du salutaire.",
+     "proc_s": 1.5615800000000002,
+     "rtf": 0.1758536036036036,
+     "cpu_util": 0.8640459448076222,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1975-14361567643536061453",
+     "duration": 9.36,
+     "hypothesis": "Le Vatican contourvira au 800 habitants. C'est le plus petit pays indépendant au monde et le moins peuplé.",
+     "proc_s": 1.5072799999999997,
+     "rtf": 0.161034188034188,
+     "cpu_util": 0.8496959117424786,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1797-15942080413960253441",
+     "duration": 8.46,
+     "hypothesis": "Tout le monde fait partie de la société et utilise des systèmes de transport quasiment tout le monde se plaît des systèmes de transport.",
+     "proc_s": 1.47275,
+     "rtf": 0.1740839243498818,
+     "cpu_util": 0.8561017628935154,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1775-9747669897173511466",
+     "duration": 7.5,
+     "hypothesis": "Je t'enregistre mon vidéo à Mania de Grande, des ouvertes dans l'interprétation des micro-expressions, c'est-à-dire l'expression façale durant quelques minutes et secondes.",
+     "proc_s": 1.9705900000000003,
+     "rtf": 0.2627453333333334,
+     "cpu_util": 0.8903646843055251,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1985-17508721816441963353",
+     "duration": 14.04,
+     "hypothesis": "Cela ressemble au ski de renonner de type aqua, ainsi qu'à l'alpinisme, sans tout de fort encore pourri et en général ces activités qui se pratiquent sur des terrains accidentés et qui exige l'utilisation de ski et de battre beaucoup plus rigide.",
+     "proc_s": 2.55314,
+     "rtf": 0.18184757834757836,
+     "cpu_util": 0.8985505202796398,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1896-2470164086297473470",
+     "duration": 14.46,
+     "hypothesis": "UNA gymnastique de Lussock ont le même objectif, rendre la gymnastique ainsi que d'autres sports, c'est sûr que possible, pour que les atlètes puissent pour vivre le rêve dans un environnement sûr positif et responsable.",
+     "proc_s": 2.21821,
+     "rtf": 0.15340318118948823,
+     "cpu_util": 0.9079636705288822,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1983-7555885479938165020",
+     "duration": 20.52,
+     "hypothesis": "Le terme civilisation est d'arriver du molatin civilis, qui signifie civil et qui est apparenté au molatin civil, qui signifie citoyen, et civilitas, qui veut dire grande ville ou ville état, et qui indique aussi en quelque sorte. L'attaque de la société à laquelle il se rapporte.",
+     "proc_s": 2.5091799999999997,
+     "rtf": 0.12227972709551656,
+     "cpu_util": 0.9094190541630781,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1662-9182067139125495353",
+     "duration": 6.42,
+     "hypothesis": "Les alliages sont essentiellement mélanges de deux métaux, plus n'oubliez pas que le tableau périodique comporte de nombreuses éléments.",
+     "proc_s": 1.5092100000000002,
+     "rtf": 0.2350794392523365,
+     "cpu_util": 0.8846049152177847,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1798-3683527580499257367",
+     "duration": 8.46,
+     "hypothesis": "Initialement, l'émission a été uniquement diffusée sur le vénérable site radiointern. To Guinette, Radio, un site consacré à la radio parler.",
+     "proc_s": 1.65005,
+     "rtf": 0.19504137115839243,
+     "cpu_util": 0.8857615975482421,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1715-5184613783463364583",
+     "duration": 15.18,
+     "hypothesis": "Les annonces régulières dans le métro, de son fait qu'en catalan, mais les perturbations imprévues, sont annoncées par un système automatisé dans de nombreuses langues dont l'Espagnole, l'anglais, le français, l'arab et le Japonais.",
+     "proc_s": 2.55997,
+     "rtf": 0.16864097496706193,
+     "cpu_util": 0.912134091535546,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1744-15679345674072383870",
+     "duration": 6.96,
+     "hypothesis": "En ce qui concerne les inversions mannétiques, plus un nombre de resbilles est petit, moins nettoyant les tactimes.",
+     "proc_s": 1.41492,
+     "rtf": 0.20329310344827586,
+     "cpu_util": 0.8695019542126097,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1839-7250834376430784014",
+     "duration": 3.54,
+     "hypothesis": "On sait à l'étinéraire de ski comme en étinéraire dorant donné similaire.",
+     "proc_s": 1.25587,
+     "rtf": 0.35476553672316385,
+     "cpu_util": 0.8711220336443501,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-fr-1947-2757290274126351777",
+     "duration": 6.0,
+     "hypothesis": "Avant l'arrivée des troupes, IT n'avait pas rencontré de problèmes liés à la maladie depuis les années 1800.",
+     "proc_s": 1.66169,
+     "rtf": 0.2769483333333333,
+     "cpu_util": 0.8163797350281201,
+     "stream_latency_s": null,
+     "error": null
+    }
+   ],
+   "offline": {
+    "network_namespace": true,
+    "python_net_attempts": [],
+    "strace": {
+     "attempts": [],
+     "sockets_created": []
+    },
+    "ok": true
+   },
+   "status": "ok"
+  },
+  {
+   "engine": "whisper_cpp",
+   "model": "whisper-base",
+   "lang": "en",
+   "dataset": "fleurs",
+   "mode": "offline",
+   "threads": 4,
+   "options": {
+    "beam_size": 5,
+    "best_of": 5,
+    "flash_attn": true
+   },
+   "chunk_s": null,
+   "realtime": null,
+   "power": {
+    "idle_w": null,
+    "active_w": null,
+    "meter": null,
+    "note": "manual reading; not measured"
+   },
+   "model_info": {
+    "id": "whisper-base",
+    "source": "https://huggingface.co/ggerganov/whisper.cpp",
+    "revision": "5359861c739e955e79d9a303bcbc70fb988958b1",
+    "licence": "MIT (OpenAI Whisper weights, ggml conversion by ggerganov)",
+    "size_on_disk_bytes": 147951465,
+    "files": [
+     {
+      "path": "ggml-base.bin",
+      "sha256": "60ed5bc3dd14eea856493d334349b405782ddcaf0028d4b5df4088345fba2efe",
+      "size": 147951465,
+      "sha256_source": "hf-lfs"
+     }
+    ]
+   },
+   "command": [
+    "taskset",
+    "-c",
+    "0-3",
+    "unshare",
+    "-rn",
+    "/home/user/meshtastic-offline-stt/.venv/bin/python",
+    "-m",
+    "bench.worker",
+    "/home/user/meshtastic-offline-stt/results/vm_2026-11-06/raw/whisper_cpp__whisper-base__en__offline__t4.job.json"
+   ],
+   "load_s": 0.1367355,
+   "peak_rss_mb": 282.24609375,
+   "peak_rss_scope": "whisper-cli child process",
+   "baseline_rss_mb": 12.703125,
+   "rss_after_load_mb": 40.2734375,
+   "cpus_allowed": 4,
+   "engine_info": {
+    "engine": "whisper.cpp",
+    "version": "",
+    "commit": "8870b39061a94f3f90397af1f2d7caf087dbff47",
+    "binary": "/home/user/meshtastic-offline-stt/third_party/whisper.cpp/build/bin/whisper-cli",
+    "cli_args": [
+     "-m",
+     "/home/user/meshtastic-offline-stt/models/whisper-base/ggml-base.bin",
+     "-l",
+     "en",
+     "-t",
+     "4",
+     "-nt",
+     "-bs",
+     "5",
+     "-bo",
+     "5",
+     "-fa"
+    ],
+    "decoding": {
+     "beam_size": 5,
+     "best_of": 5,
+     "flash_attn": true,
+     "no_fallback": false,
+     "threads": 4,
+     "lang": "en"
+    }
+   },
+   "summary": {
+    "n_utterances": 20,
+    "n_errors": 0,
+    "audio_s": 188.16,
+    "wer_raw": 0.15242494226327943,
+    "cer_raw": 0.05918762088974855,
+    "wer": 0.08803611738148984,
+    "cer": 0.04518430439952437,
+    "rtf_mean": 0.1664884973538221,
+    "rtf_p90": 0.2192974392361111,
+    "rtf_total": 0.15297571215986394,
+    "latency_mean_s": 1.4391954999999998,
+    "latency_p90_s": 1.67482,
+    "stream_latency_mean_s": null,
+    "stream_latency_p90_s": null,
+    "cpu_util_mean": 0.8456813299906262
+   },
+   "utterances": [
+    {
+     "utt_id": "fleurs-en-1980-12741024238657315067",
+     "duration": 12.64,
+     "hypothesis": "Unfortunately, stunning traffic flow is difficult because driver behavior cannot be predicted with 100% certainty.",
+     "proc_s": 1.3158400000000001,
+     "rtf": 0.10410126582278481,
+     "cpu_util": 0.7816801515150322,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1914-621925716775998155",
+     "duration": 5.88,
+     "hypothesis": "20th century research has shown that there are two pools of genetic variation hidden and expressed.",
+     "proc_s": 1.4249100000000001,
+     "rtf": 0.24233163265306126,
+     "cpu_util": 0.7336260774862924,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1771-2589557553267364799",
+     "duration": 8.94,
+     "hypothesis": "Remember that even though music on the main stages may have finished, there may be sections of the festival that will keep playing music until late into the night.",
+     "proc_s": 1.55672,
+     "rtf": 0.17412975391498883,
+     "cpu_util": 0.836443072757671,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1669-8173060820032255320",
+     "duration": 9.14,
+     "hypothesis": "Police superintendent Shana Shankhar Solansky said he accused appeared in court with covered faces.",
+     "proc_s": 1.39554,
+     "rtf": 0.15268490153172865,
+     "cpu_util": 0.828244379093422,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1949-2652155470394119415",
+     "duration": 6.72,
+     "hypothesis": "The term bug is used by entomologists in a formal sense for this group of insects.",
+     "proc_s": 1.1444100000000001,
+     "rtf": 0.17029910714285718,
+     "cpu_util": 0.8610473760490781,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1832-18066939864018796519",
+     "duration": 10.38,
+     "hypothesis": "Popular sports include football, basketball, volleyball, water polo, fencing, rugby, cycling, ice hockey, roller hockey, and F1 motor racing.",
+     "proc_s": 1.68985,
+     "rtf": 0.16279865125240847,
+     "cpu_util": 0.8164903349255163,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1915-16847628585853049714",
+     "duration": 13.34,
+     "hypothesis": "You can use Bowda Bowda, more a cycle taxi to get around Goma. The normal local price is 500. It can go these francs for the short ride.",
+     "proc_s": 1.65868,
+     "rtf": 0.12433883058470764,
+     "cpu_util": 0.883308091655452,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1699-1596269393232229615",
+     "duration": 9.6,
+     "hypothesis": "Bishkek was described as sinking into a state of anarchy by one observer as gangs of people roam the streets and plundered stores of consumer goods.",
+     "proc_s": 1.52801,
+     "rtf": 0.15916770833333335,
+     "cpu_util": 0.8585988623861533,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1673-2637301866626572038",
+     "duration": 10.08,
+     "hypothesis": "During the Revolutionary War, the 13 states first formed a weak central government with the Congress being its only component under the Articles of Confederation.",
+     "proc_s": 1.4519,
+     "rtf": 0.1440376984126984,
+     "cpu_util": 0.8709741655780392,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1877-1722118868151836971",
+     "duration": 19.56,
+     "hypothesis": "Current Senator and Argentine First Lady Cristina Fernandez de Kirchner announced her presidential candidacy yesterday evening in La Plata, a city 50 kilometers, 31 miles away from Buenos Aires.",
+     "proc_s": 1.6322799999999997,
+     "rtf": 0.08344989775051125,
+     "cpu_util": 0.877244102018572,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1860-13230261475791184258",
+     "duration": 4.56,
+     "hypothesis": "The governor's office in 19 of the injured work police officers.",
+     "proc_s": 0.9689300000000001,
+     "rtf": 0.21248464912280704,
+     "cpu_util": 0.8447487167729616,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1935-5106380017322065030",
+     "duration": 8.54,
+     "hypothesis": "However, that is not true. Although there is something written on the back of the document, it is not a treasure map.",
+     "proc_s": 1.3999,
+     "rtf": 0.16392271662763466,
+     "cpu_util": 0.8659651765912831,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1674-10492135991603561867",
+     "duration": 5.64,
+     "hypothesis": "In some areas, boiling water for a minute is enough and other several minutes are needed.",
+     "proc_s": 1.1010900000000001,
+     "rtf": 0.19522872340425534,
+     "cpu_util": 0.8555764718188977,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1675-6817878979697223927",
+     "duration": 6.6,
+     "hypothesis": "All nouns, alongside the word \"see\" for you, always speaking with the capital letter, even in the middle of a sentence.",
+     "proc_s": 1.23648,
+     "rtf": 0.18734545454545456,
+     "cpu_util": 0.8645813089697874,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1728-10197164397713068203",
+     "duration": 5.76,
+     "hypothesis": "The cabbage juice changes color depending on how acidic, basic alkaline the chemical is.",
+     "proc_s": 1.3377700000000001,
+     "rtf": 0.23225173611111113,
+     "cpu_util": 0.7892145171594936,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1798-1218355507714944126",
+     "duration": 13.18,
+     "hypothesis": "In his early days, the show was featured solely at the long-running internet radio site, Toking at Radio, a site focused on talk radio.",
+     "proc_s": 1.57449,
+     "rtf": 0.11946054628224582,
+     "cpu_util": 0.8611960961888346,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1924-283614893570272908",
+     "duration": 7.68,
+     "hypothesis": "Four skiers in the women sitting group failed to finish their runs and 45 of the 117 total skiers in the Giants Lionel failed to rank in the race.",
+     "proc_s": 1.67315,
+     "rtf": 0.21785807291666667,
+     "cpu_util": 0.8634548174962402,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1684-4496786334735634498",
+     "duration": 10.96,
+     "hypothesis": "Apia is the capital of Samoa. The town is on the island of Upoğlu and has a population of just under 40,000.",
+     "proc_s": 1.41601,
+     "rtf": 0.1291979927007299,
+     "cpu_util": 0.8893617471694956,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1936-5505398583576174352",
+     "duration": 12.6,
+     "hypothesis": "Perry stated that he would return to Texas to assess the results of tonight's caucus to determine whether it is a path forward for myself in this race. But later said that he would remain in the race and compete in the January 21 South Carolina primary.",
+     "proc_s": 2.06402,
+     "rtf": 0.16381111111111113,
+     "cpu_util": 0.8650464995632725,
+     "stream_latency_s": null,
+     "error": null
+    },
+    {
+     "utt_id": "fleurs-en-1661-6917907748364342404",
+     "duration": 6.36,
+     "hypothesis": "He did not set a figure for the cut saying they will be made based on China's economic output.",
+     "proc_s": 1.21393,
+     "rtf": 0.1908694968553459,
+     "cpu_util": 0.8668246346170275,
+     "stream_latency_s": null,
+     "error": null
+    }
+   ],
+   "offline": {
+    "network_namespace": true,
+    "python_net_attempts": [],
+    "strace": {
+     "attempts": [],
+     "sockets_created": []
+    },
+    "ok": true
+   },
+   "status": "ok"
+  }
+ ],
+ "finished": "2026-11-06T09:23:04+00:00"
+}
