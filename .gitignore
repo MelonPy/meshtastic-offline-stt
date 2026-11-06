@@ -1,0 +1,19 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Third-party builds (whisper.cpp is cloned and built by scripts/setup_host.sh)
+third_party/
+
+# Models and datasets are downloaded, never committed
+models/
+data/*
+!data/mesh_messages/
+data/mesh_messages/*
+!data/mesh_messages/README.md
+!data/mesh_messages/prompts_fr.txt
+!data/mesh_messages/prompts_en.txt
+
+# Raw per-utterance logs stay local; results.json / summary.* are committed
+results/**/raw/

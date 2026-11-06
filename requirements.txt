@@ -1,0 +1,14 @@
+# Pinned for reproducibility. Python 3.11+ (tested with 3.13 on x86_64).
+# Engines
+vosk==0.3.45
+sherpa-onnx==2.0.1
+onnxruntime==1.31.1
+tokenizers==0.23.3
+# Audio / data
+numpy==2.5.4
+soundfile==0.14.0
+sounddevice==0.5.6
+# Metrics and harness
+jiwer==4.0.0
+psutil==7.2.2
+PyYAML==6.0.3
