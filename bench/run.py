@@ -185,14 +185,14 @@ def write_reports(out_dir, doc):
         "Latency p90 = end of audio → final text (offline engines: whole-utterance processing time; "
         "streaming engines: time after the last chunk was fed). Peak RAM = max RSS of the engine process.",
         "",
-        "| Engine | Model | Lang | Mode | Thr | N | WER | CER | WER raw | RTF mean | RTF p90 | Latency p90 (s) | Load (s) | Peak RAM (MB) | Model (MB) | CPU % | Offline |",
-        "|---|---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|---|",
+        "| Engine | Model | Lang | Data | Mode | Thr | N | WER | CER | WER raw | RTF mean | RTF p90 | Latency p90 (s) | Load (s) | Peak RAM (MB) | Model (MB) | CPU % | Offline |",
+        "|---|---|---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|---|",
     ]
     for r in rows:
         lat = r["stream_latency_p90_s"] if r["mode"] == "stream" else r["latency_p90_s"]
         pct = lambda x: "–" if x is None else f"{100 * x:.1f}%"
         lines.append("| " + " | ".join([
-            r["engine"], r["model"], r["lang"], r["mode"], str(r["threads"]), fmt(r["n"]),
+            r["engine"], r["model"], r["lang"], r["dataset"], r["mode"], str(r["threads"]), fmt(r["n"]),
             pct(r["wer"]), pct(r["cer"]), pct(r["wer_raw"]), fmt(r["rtf_mean"]), fmt(r["rtf_p90"]),
             fmt(lat, 2), fmt(r["load_s"], 2), fmt(r["peak_rss_mb"], 0), fmt(r["model_mb"], 0),
             pct(r["cpu_util_mean"]), {True: "yes", False: "**NO**", None: "–"}[r["offline_ok"]],

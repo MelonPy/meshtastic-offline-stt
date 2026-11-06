@@ -147,7 +147,24 @@ on first download (`sha256_source: tofu`).
 
 This downloads the FLEURS test split (`google/fleurs`, pinned revision, checksum
 verified, CC-BY-4.0) and converts it once to 16 kHz mono WAV. It writes
-`data/fleurs/<lang>/manifest.csv` (path, duration, reference, language). Common
+`data/fleurs/<lang>/manifest.csv` (path, duration, reference, language).
+
+Many FLEURS recordings are very quiet (en_us: median peak about -41 dBFS), and
+level-sensitive engines then drop words. To test with levels closer to a real
+microphone chain, you can also create a peak-normalised copy (opt-in; the raw set
+stays the default and is never modified):
+
+```bash
+.venv/bin/python -m bench.datasets.fleurs --lang fr en --normalize-peak -3
+```
+
+```bash
+.venv/bin/python -m bench.run --config configs/smoke_peaknorm.yaml
+```
+
+Each file gets one linear gain that puts its peak at -3 dBFS, capped at +40 dB
+(`--max-gain-db`). The copy goes to `data/fleurs/<lang>_peak-3dB/`, with the gain
+of each file in `gains.csv`, and results are labelled `fleurs-peak-3dB`. Common
 Voice needs a manual download (see `bench/datasets/common_voice.py`). To record
 your own mesh-style messages, see
 [`data/mesh_messages/README.md`](data/mesh_messages/README.md).

@@ -1,0 +1,33 @@
+# Smoke test on PEAK-NORMALISED FLEURS (-3 dBFS), same matrix as smoke.yaml.
+# Prepare with: python -m bench.datasets.fleurs --lang fr en --normalize-peak -3
+# Models are ids from configs/models.lock.json; each model runs only on the
+# languages it supports.
+datasets:
+  - {name: fleurs-peak-3dB, lang: fr, manifest: data/fleurs/fr_peak-3dB/manifest.csv}
+  - {name: fleurs-peak-3dB, lang: en, manifest: data/fleurs/en_peak-3dB/manifest.csv}
+
+limit: 20         # --limit N overrides
+threads: [4]       # the RK3566 has 4 Cortex-A55 cores; --threads 1 2 4 overrides
+cpus: "0-3"        # taskset CPU list
+warmup: 1          # utterances run once before timing (not scored)
+
+runs:
+  - engine: whisper_cpp
+    models: [whisper-tiny, whisper-tiny-q5_1, whisper-tiny-q8_0,
+             whisper-base, whisper-base-q5_1, whisper-base-q8_0, whisper-small]
+    options: {beam_size: 5, best_of: 5, flash_attn: true}   # whisper-cli defaults, made explicit
+
+  - engine: vosk
+    models: [vosk-small-fr-0.22, vosk-small-en-us-0.15]
+    mode: stream
+    chunk_s: 0.1      # 100 ms chunks, fed as fast as possible (realtime: true paces like a mic)
+
+  - engine: sherpa_onnx
+    models: [sherpa-zipformer-fr-kroko-2025-08-06, sherpa-zipformer-en-kroko-2025-08-06]
+    mode: stream
+    chunk_s: 0.1
+    options: {decoding_method: greedy_search}
+
+  - engine: moonshine
+    models: [moonshine-tiny-en, moonshine-base-en, moonshine-tiny-fr]
+    options: {tokens_per_second: 6.5}
