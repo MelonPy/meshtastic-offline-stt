@@ -1,0 +1,31 @@
+# id<TAB>text. Read the text as written (say numbers as words).
+en01	I have arrived at the hut.
+en02	Arrived safely, all good.
+en03	Need water at the meeting point.
+en04	We need two liters of water.
+en05	Current position: Eagle Pass, altitude six thousand feet.
+en06	I am three kilometers north of the village.
+en07	Meet at two thirty p.m. at the parking lot.
+en08	Leaving again in ten minutes.
+en09	Running about one hour late, don't worry.
+en10	Battery at twenty percent.
+en11	No cell signal here, using the mesh.
+en12	Someone hurt their ankle, need help.
+en13	Emergency: call rescue, we are at Blue Lake.
+en14	Everyone is back at camp.
+en15	The road is blocked after the bridge.
+en16	The trail is covered in snow, turning back.
+en17	Camping by the creek tonight.
+en18	Weather getting worse, storm expected around six p.m.
+en19	Leaving Boulder tomorrow at seven a.m.
+en20	Supply stop at Silver Creek.
+en21	Four people are still at the summit.
+en22	Copy that, loud and clear, thanks.
+en23	Can you confirm your position?
+en24	I saw smoke east of the ridge.
+en25	Coordinates: forty five point nine two north, six point eight seven east.
+en26	We have food for two days.
+en27	The relay on Bear Mountain is not responding.
+en28	Heading down through the valley.
+en29	Expected arrival in Denver around nine p.m.
+en30	End of transmission, talk tomorrow.

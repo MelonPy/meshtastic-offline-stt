@@ -1,0 +1,31 @@
+# id<TAB>texte. Lisez le texte tel qu'il est écrit (nombres en toutes lettres à l'oral).
+fr01	Je suis arrivé au refuge.
+fr02	Bien arrivés, tout va bien.
+fr03	Besoin d'eau au point de rendez-vous.
+fr04	On a besoin de deux litres d'eau.
+fr05	Position actuelle : col de la Croix, altitude mille huit cents mètres.
+fr06	Je suis à trois kilomètres au nord du village.
+fr07	Rendez-vous à quatorze heures trente au parking.
+fr08	On repart dans dix minutes.
+fr09	Retard d'environ une heure, ne vous inquiétez pas.
+fr10	Batterie à vingt pour cent.
+fr11	Pas de réseau ici, je passe par le mesh.
+fr12	Quelqu'un est blessé à la cheville, besoin d'aide.
+fr13	Urgence : appelez les secours, nous sommes au lac Blanc.
+fr14	Tout le monde est rentré au camp.
+fr15	La route est coupée après le pont.
+fr16	Le sentier est enneigé, on fait demi-tour.
+fr17	On bivouaque près du torrent cette nuit.
+fr18	Météo qui se dégrade, orage prévu vers dix-huit heures.
+fr19	Je pars de Chamonix demain à sept heures.
+fr20	Point de ravitaillement à Saint-Gervais.
+fr21	Il reste quatre personnes au sommet.
+fr22	Reçu cinq sur cinq, merci.
+fr23	Pouvez-vous confirmer votre position ?
+fr24	J'ai vu la fumée à l'est de la crête.
+fr25	Coordonnées : quarante-cinq virgule neuf deux nord, six virgule huit sept est.
+fr26	Nous avons de la nourriture pour deux jours.
+fr27	Le relais du Mont Aiguille ne répond plus.
+fr28	Je redescends par la vallée de la Clarée.
+fr29	Arrivée prévue à Grenoble vers vingt et une heures.
+fr30	Fin de transmission, à demain.
