@@ -1,0 +1,18 @@
+# Thread scaling: the most promising small models at 1, 2 and 4 threads.
+datasets:
+  - {name: fleurs, lang: fr, manifest: data/fleurs/fr/manifest.csv}
+  - {name: fleurs, lang: en, manifest: data/fleurs/en/manifest.csv}
+limit: 100
+threads: [1, 2, 4]
+cpus: "0-3"
+warmup: 1
+runs:
+  - engine: whisper_cpp
+    models: [whisper-tiny-q8_0, whisper-base-q8_0]
+    options: {beam_size: 5, best_of: 5, flash_attn: true}
+  - engine: sherpa_onnx
+    models: [sherpa-zipformer-fr-kroko-2025-08-06, sherpa-zipformer-en-kroko-2025-08-06]
+    mode: stream
+    chunk_s: 0.1
+  - engine: moonshine
+    models: [moonshine-tiny-en, moonshine-tiny-fr]

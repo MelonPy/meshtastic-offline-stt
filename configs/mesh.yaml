@@ -1,0 +1,20 @@
+# Your own recorded mesh messages (see data/mesh_messages/README.md).
+datasets:
+  - {name: mesh, lang: fr, manifest: data/mesh_messages/fr/manifest.csv}
+  - {name: mesh, lang: en, manifest: data/mesh_messages/en/manifest.csv}
+limit: null
+threads: [4]
+cpus: "0-3"
+warmup: 1
+runs:
+  - engine: whisper_cpp
+    models: [whisper-tiny-q8_0, whisper-base-q8_0, whisper-small]
+    options: {beam_size: 5, best_of: 5, flash_attn: true}
+  - engine: vosk
+    models: [vosk-small-fr-0.22, vosk-small-en-us-0.15]
+    mode: stream
+  - engine: sherpa_onnx
+    models: [sherpa-zipformer-fr-kroko-2025-08-06, sherpa-zipformer-en-kroko-2025-08-06]
+    mode: stream
+  - engine: moonshine
+    models: [moonshine-tiny-en, moonshine-base-en, moonshine-tiny-fr]
